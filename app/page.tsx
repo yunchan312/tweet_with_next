@@ -1,13 +1,34 @@
-import Button from "@/components/button";
+import TweetLists from "@/components/tweet-lists";
+import TweetBox from "@/components/tweetBox";
+import db from "@/lib/database";
+import { Prisma } from "@prisma/client";
 
-export default function Home() {
+const getTweets = async () => {
+  const tweets = await db.sMSToken.findMany({
+    select: {
+      content: true,
+      id: true,
+      user: {
+        select: {
+          username: true,
+          avatar: true,
+          email: true,
+        },
+      },
+    },
+    take: 1,
+  });
+  return tweets;
+};
+
+export type InitialListsProps = Prisma.PromiseReturnType<typeof getTweets>;
+
+export default async function Home() {
+  const tweets = await getTweets();
   return (
     <div className="container">
-      <div className="pageTitle">H O M E</div>
-      <div className="flex flex-col gap-2">
-        <Button text="Create Account" direction="create-account" />
-        <Button text="Login" direction="login" />
-      </div>
+      <div className="pageTitle">Home</div>
+      <TweetLists initialLists={tweets} />
     </div>
   );
 }

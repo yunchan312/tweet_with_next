@@ -10,7 +10,7 @@
 
 @layer utitlies {
   .container {
-    @apply flex flex-col gap-10 py-24 px-6;
+    @apply flex flex-col gap-10 py-12 px-6;
   }
 
   .pageTitle {
