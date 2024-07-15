@@ -15,8 +15,9 @@ export async function getMoreTweet(page: number) {
         },
       },
     },
-    skip: page * 1,
-    take: 1,
+    skip: page * 5,
+    take: 5,
+    orderBy: { id: "desc" },
   });
   return tweets;
 }

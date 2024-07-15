@@ -1,3 +1,4 @@
+import AddTweet from "@/components/(tweetform)/addtweet";
 import TweetLists from "@/components/tweet-lists";
 import TweetBox from "@/components/tweetBox";
 import db from "@/lib/database";
@@ -16,7 +17,10 @@ const getTweets = async () => {
         },
       },
     },
-    take: 1,
+    take: 5,
+    orderBy: {
+      id: "desc",
+    },
   });
   return tweets;
 };
@@ -28,6 +32,7 @@ export default async function Home() {
   return (
     <div className="container">
       <div className="pageTitle">Home</div>
+      <AddTweet />
       <TweetLists initialLists={tweets} />
     </div>
   );
