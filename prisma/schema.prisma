@@ -24,14 +24,44 @@ model User {
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
   SMSToken   SMSToken[]
+  Comment    Comment[]
+  Like       Like[]
 }
 
 model SMSToken {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   title      String
   content    String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  Comment    Comment[]
+  Like       Like[]
+}
+
+model Comment {
+  id      Int    @id @default(autoincrement())
+  payload String
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post       SMSToken @relation(fields: [sMSTokenId], references: [id], onDelete: Cascade)
   userId     Int
+  sMSTokenId Int
+}
+
+model Like {
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post SMSToken @relation(fields: [sMSTokenId], references: [id], onDelete: Cascade)
+
+  userId     Int
+  sMSTokenId Int
+
+  @@id(name: "id", [userId, sMSTokenId])
 }
