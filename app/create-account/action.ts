@@ -84,10 +84,8 @@ export async function createAccount(prevState: any, formData: FormData) {
 
   const result = await formSchema.safeParseAsync(data);
   if (!result.success) {
-    console.log(result.error.flatten());
     return result.error.flatten();
   } else {
-    console.log(result);
     // hash password
     const hashedPassword = await bcrypt.hash(result.data.password, 12);
     // save the user to db
